@@ -3,13 +3,7 @@ module sender::test_base_typemove {
     use aptos_std::debug::print;
 
 
-    public fun fun_name():u8{
-        let x = 10;
-        // x;//错误，不能加;
-        return  x;//错误，不能加;
-        // x //正确
-        // return  x
-    }
+
 
     #[test]
     fun test_base_type_init() {

@@ -17,6 +17,21 @@
 > 
 > 返回值注意不能加 **;**,**return**可写可不写
 
+
+## 2. as关键字用法
++ 将导入的函数Math改名为M,详细使用见[test_function.move](https://github.com/wpf008/hello_move/tree/master/03-base-type/tests/test_function.move)
+```move
+use sender::Math as M;  //将导入的函数Math改名为M
+```
+
++ 类型转换,详细使用见[Math.move](https://github.com/wpf008/hello_move/tree/master/03-base-type/sources/Math.move)
+```move
+public fun multiply(a: u64, b: u64): u128 {
+    (a * b as u128)
+}
+```
+
+
 ---
 
 > 至此move的环境搭建是否成功已得到验证且使用move语言开发helloworld程序已经完成，接下来我们开始move基本语法。
