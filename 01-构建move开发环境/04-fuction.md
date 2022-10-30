@@ -6,18 +6,18 @@
 
 ```move
 [public ] fun fun_name(params1: Type1, parmas2: Type2): (ReturnType1, ReturnType2){
-// fun body
+    //fun body
 }
 ```
 
 **说明**
-> public 用于访问控制，无public表示仅仅在module内部调用
+> + public 用于访问控制，无public表示仅仅在module内部调用
 >
-> 函数的入参可以是0个，也可以是多个
+> + 函数的入参可以是0个，也可以是多个
 >
-> 函数的返回值可以是0个，也可以是多个，多个用()
+> + 函数的返回值可以是0个，也可以是多个，多个用()
 >
-> 返回值注意不能加 **;**,**return**可写可不写
+> + 返回值注意不能加 **;**,**return**可写可不写
 
 
 ----
