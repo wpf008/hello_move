@@ -4,6 +4,8 @@ module sender::test_function {
     use aptos_std::debug::print;
     use sender::Math as M;
 
+
+
     #[test]
     public fun test_math() {
         let sum = Math::add(1, 1);
@@ -25,7 +27,7 @@ module sender::test_function {
         Math::sum_loop(10);
         Math::smallest_factor(10);
         Math::sum_intermediate(20);
-
+        assert!(10 > 5,10);
     }
 
 

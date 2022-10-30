@@ -12,4 +12,4 @@
 
 + **第3讲：move 基本数据类型【数值类型，bool类型，address】**：[代码](https://github.com/wpf008/hello_move/tree/master/03-base-type) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/03-base-type.md) 
 
-+ **第4讲：move 函数定义**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_function.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/04-fuction.md) 
++ **第4讲：move 函数定义和流程控制**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_function.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/04-fuction.md) 

@@ -72,4 +72,11 @@ module sender::Math {
         print(&sum);
         sum
     }
+
+
+    public fun test_abort(a: u8) {
+        if (a > 10)
+            abort 10;
+        assert!(a > 5, 5)
+    }
 }

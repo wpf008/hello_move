@@ -106,7 +106,7 @@ fun sum_loop(n: u64): u64 {
 }
 ```
 
-### 3.2 break & continue
+### 3.3 break & continue
 + **break**表达式可用于在条件计算为假之前退出循环。 例如，此循环使用break来查找n中大于1的最小因子：
 ```move
 fun smallest_factor(n: u64): u64 {
@@ -133,6 +133,24 @@ fun sum_intermediate(n: u64): u64 {
 }
 
 ```
+
+## 4.abort & assert
+### 4.1 abort是一个带有一个参数的表达式：u64 类型的中止代码。
+### 4.2 assert是Move编译器提供的内置的类似宏的操作。它有两个参数，一个bool类型的条件和一个u64类型的代码。
+
+> assert!(condition, value)   condition为false时抛出value
+
+```move
+public fun test_abort(a: u8) {
+    if (a > 10)
+        abort 10;
+    assert!(a > 5, 5)
+}
+```
+
+
+
+
 
 ---
 

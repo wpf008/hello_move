@@ -2,11 +2,11 @@
 module sender::test_base_typemove {
     use aptos_std::debug::print;
 
-
-
+    const Ab:u8  = 10;
 
     #[test]
     fun test_base_type_init() {
+        print(&Ab);
         let a = true;
         let x: u64 = 666;
         let y = 888u128;
