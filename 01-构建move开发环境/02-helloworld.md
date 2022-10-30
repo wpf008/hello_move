@@ -68,4 +68,6 @@ module 0x1::test_helloworld {
 > 
 > 若clone失败，也可以直接去[aptos-core](https://github.com/aptos-labs/aptos-core)直接下载改代码，然后放入该路径下即可。
 
+---
+
 > 至此move的环境搭建是否成功已得到验证且使用move语言开发helloworld程序已经完成，接下来我们开始move基本语法。
