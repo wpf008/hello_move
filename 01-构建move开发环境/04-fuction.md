@@ -5,7 +5,7 @@
 ## 1.move语言中函数的定义(学过编程语言的，这一小节其实很简单)
 
 ```move
-[public ] fun fun_name(params1: Type1, parmas2: Type2): (ReturnType1, ReturnType2){
+[public] fun fun_name(params1: Type1, parmas2: Type2): (ReturnType1, ReturnType2){
     //fun body
 }
 ```
