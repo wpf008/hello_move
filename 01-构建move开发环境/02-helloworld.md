@@ -25,7 +25,7 @@ module 0x1::helloworld {
 
 
 
-## 2.在tests目录下创建一个名为test_helloworld的move test module，编写脚本如下:
+## 3.在tests目录下创建一个名为test_helloworld的move test module，编写脚本如下:
 ```move
 #[test_only]
 module 0x1::test_helloworld {
@@ -38,8 +38,8 @@ module 0x1::test_helloworld {
 }
 ```
 
-## 3.执行测试脚本
-### 3.1 命令行的方式执行
+## 4.执行测试脚本
+### 4.1 命令行的方式执行
 ```shel1
 /Users/wpf/software/aptos move test --filter test_helloworld::helloworld
 ```
@@ -48,7 +48,7 @@ module 0x1::test_helloworld {
 
 
 
-### 3.2 通过idea的的可视化按钮快速运行
+### 4.2 通过idea的的可视化按钮快速运行
 
 ![my-logo.png](../asset/hello_run_idea.png)
 
@@ -66,6 +66,6 @@ module 0x1::test_helloworld {
 > 
 > 然后在/https___github_com_aptos-labs_aptos-core_git_main 这个目录下执行git clone git@github.com:aptos-labs/aptos-core.git 
 > 
-> 若clone失败，也快直接去https://github.com/aptos-labs/aptos-core直接下载改代码，然后放入该路径下即可。
+> 若clone失败，也可以直接去[aptos-core](https://github.com/aptos-labs/aptos-core)直接下载改代码，然后放入该路径下即可。
 
 > 至此move的环境搭建是否成功已得到验证且使用move语言开发helloworld程序已经完成，接下来我们开始move基本语法。
