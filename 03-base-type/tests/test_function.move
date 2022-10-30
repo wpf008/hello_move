@@ -20,6 +20,12 @@ module sender::test_function {
 
         let mod = Math::mod(10, 7);
         print(&mod);
+
+        Math::sum_while(10);
+        Math::sum_loop(10);
+        Math::smallest_factor(10);
+        Math::sum_intermediate(20);
+
     }
 
 
