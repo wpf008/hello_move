@@ -33,20 +33,51 @@ let d = vector::singleton(888u128);     //创建包含一个元素的vector
 | ector::remove<T>(v: &mut vector<T>, i: u64): T | 删除容器v中第 i 个元素，并将后续元素全部向前移动。时间复杂度O(n)，但保留向量中元素的顺序    | 如果i超出范围      |
 | vector::swap_remove<T>(v: &mut vector<T>, i: u64): T | i将容器中第i个元素与最后一个元素交换，然后最后一个元素，时间复杂度O(1)，但不保留向量中元素的顺序 | 如果i超出范围      |
 
+> [example](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_vector_signer.move)
+```move
+let a = vector<u8>[1, 2, 3, 4, 5];
+
+vector::push_back(&mut a, 6);
+print(&a);//[1, 2, 3, 4, 5, 6]
+
+let x = vector::pop_back(&mut a);
+print(&x);//6
+
+let y = vector::borrow(&a, 1);
+// *y = 20;  //error
+print(y);//2
+
+let z = vector::borrow_mut(&mut a, 2);
+print(z); // 3
+*z = 10;
+print(&a); // [1, 2, 10, 4, 5]
 
 
+let b = vector::singleton(8);
+vector::append(&mut a, b);
+print(&a); //[1, 2, 10, 4, 5, 8]
 
-**说明**
-> + public 用于访问控制，无public表示仅仅在module内部调用
->
-> + 函数的入参可以是0个，也可以是多个
->
-> + 函数的返回值可以是0个，也可以是多个，多个用()
->
-> + 返回值注意不能加 **;**,**return**可写可不写
+let exist = vector::contains(&a, &8);
+print(&exist); //true
 
 
-----
+vector::swap(&mut a, 3, 4);
+print(&a);//[1, 2, 10, 5, 4, 8]
+
+vector::reverse(&mut a);
+print(&a);//[8, 4, 5, 10, 2, 1]
+
+
+let (flag, index) = vector::index_of(&a, &10);
+print(&flag);//true
+print(&index);//3
+
+vector::remove(&mut a, 3);
+print(&a);//[8, 4, 5, 2, 1]
+
+vector::swap_remove(&mut a, 0);
+print(&a);//[1, 4, 5, 2]        
+```
 
 ## 2. as关键字用法
 
