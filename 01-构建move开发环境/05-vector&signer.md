@@ -1,4 +1,4 @@
-# move vector & signer
+# move vector & string & signer
 
 > 本教程是基于aptos搭建的move智能合约开发
 
@@ -16,24 +16,29 @@ let d = vector::singleton(888u128);     //创建包含一个元素的vector
 ```
 
 ### 1.3 std::vector通过Move标准库中的模块支持以下操作:
-| 方法  | 描述                                                  | 是否会abort     |
-|:----|:----------------------------------------------------|:-------------|
-| vector::empty<T>(): vector<T> | 创建一个可以存储类型值的空向量T                                    | 不会           |
-| vector::singleton<T>(t: T): vector<T> | 创建一个大小为1的向量，其中包含t                                   | 不会           |
-| vector::push_back<T>(v: &mut vector<T>, t: T) | 添加t到v的末尾                                            | 不会           |
-| vector::pop_back<T>(v: &mut vector<T>): T | 删除并返回最后一个元素                                         | 如果v为空        |
-| vector::borrow<T>(v: &vector<T>, i: u64): &T | 返回v对应索引i下的不可变元素                                     | 如果i不在范围内     |
-| vector::borrow_mut<T>(v: &mut vector<T>, i: u64): &mut T | 返回v对应索引i下的可变元素                                      | 如果i不在范围内     |
-| vector::destroy_empty<T>(v: vector<T>) | 删除容器v                                               | 如果v不为空       |
-| vector::append<T>(v1: &mut vector<T>, v2: vector<T>) | 将容器v2追加到v1的末尾                                       | 不会           |
-| vector::contains<T>(v: &vector<T>, e: &T): bool | 如果e在容器v中，则返回true,否则，返回false                         | 不会           |
-| vector::swap<T>(v: &mut vector<T>, i: u64, j: u64) | 交换容器v中第i索引和第j索引下的值                                  | 如果i或j超出范围    |
-| vector::reverse<T>(v: &mut vector<T>) | 反转容器v中的元素                                           | 不会           |
-| vector::index_of<T>(v: &vector<T>, e: &T): (bool, u64) | e是否在容器中,若存在返回(true, i)。否则返回(false, 0)               | 绝不           |
-| ector::remove<T>(v: &mut vector<T>, i: u64): T | 删除容器v中第 i 个元素，并将后续元素全部向前移动。时间复杂度O(n)，但保留向量中元素的顺序    | 如果i超出范围      |
-| vector::swap_remove<T>(v: &mut vector<T>, i: u64): T | i将容器中第i个元素与最后一个元素交换，然后最后一个元素，时间复杂度O(1)，但不保留向量中元素的顺序 | 如果i超出范围      |
+
+| 方法                                                       | 描述                                                  | 是否会abort |
+|:---------------------------------------------------------|:----------------------------------------------------|:---------|
+| vector::empty<T>(): vector<T>                            | 创建一个可以存储类型值的集合T                                     | 不会       |
+| vector::singleton<T>(t: T): vector<T>                    | 创建一个大小为1的集合，其中包含t                                   | 不会       |
+| vector::length<T>(v: &vector<T>): u64                    | 返回集合的元素个数                                           | 不会       |
+| vector::is_empty<T>(v: &vector<T>): bool                 | 集合的是否有元素                                            | 不会       |
+| vector::push_back<T>(v: &mut vector<T>, t: T)            | 添加t到v的末尾                                            | 不会       |
+| vector::pop_back<T>(v: &mut vector<T>): T                | 删除并返回最后一个元素                                         | 如果v为空    |
+| vector::borrow<T>(v: &vector<T>, i: u64): &T             | 返回v对应索引i下的不可变元素                                     | 如果i不在范围内 |
+| vector::borrow_mut<T>(v: &mut vector<T>, i: u64): &mut T | 返回v对应索引i下的可变元素                                      | 如果i不在范围内 |
+| vector::destroy_empty<T>(v: vector<T>)                   | 删除集合v                                               | 如果v不为空   |
+| vector::append<T>(v1: &mut vector<T>, v2: vector<T>)     | 将集合v2追加到v1的末尾                                       | 不会       |
+| vector::contains<T>(v: &vector<T>, e: &T): bool          | 如果e在集合v中，则返回true,否则，返回false                         | 不会       |
+| vector::swap<T>(v: &mut vector<T>, i: u64, j: u64)       | 交换集合v中第i索引和第j索引下的值                                  | 如果i或j超出范围 |
+| vector::reverse<T>(v: &mut vector<T>)                    | 反转集合v中的元素                                           | 不会       |
+| vector::index_of<T>(v: &vector<T>, e: &T): (bool, u64)   | e是否在集合中,若存在返回(true, i)。否则返回(false, 0)               | 绝不       |
+| ector::remove<T>(v: &mut vector<T>, i: u64): T           | 删除集合v中第 i 个元素，并将后续元素全部向前移动。时间复杂度O(n)，但保留集合中元素的顺序    | 如果i超出范围  |
+| vector::swap_remove<T>(v: &mut vector<T>, i: u64): T     | i将集合中第i个元素与最后一个元素交换，然后最后一个元素，时间复杂度O(1)，但不保留集合中元素的顺序 | 如果i超出范围  |
+| vector::destroy_empty<T>(v: vector<T>)                   | 删除集合v                                               | 如果v不是空   |
 
 > [example](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_vector_signer.move)
+
 ```move
 let a = vector<u8>[1, 2, 3, 4, 5];
 
@@ -44,12 +49,12 @@ let x = vector::pop_back(&mut a);
 print(&x);//6
 
 let y = vector::borrow(&a, 1);
-// *y = 20;  //error
+// *y = 20;  //error  borrow with immutable  
 print(y);//2
 
 let z = vector::borrow_mut(&mut a, 2);
 print(z); // 3
-*z = 10;
+*z = 10; // correct
 print(&a); // [1, 2, 10, 4, 5]
 
 
@@ -79,12 +84,49 @@ vector::swap_remove(&mut a, 0);
 print(&a);//[1, 4, 5, 2]        
 ```
 
+### 1.3 std::vector的其他操作
+
++ 遍历vector
+
+```move
+let index = 0;
+let len = vector::length(&a);
+while (index < len) {
+print(vector::borrow(&a, index));
+index = index + 1;
+};
+```
+
++ vector排序
+
+```move
+let index = 0;
+let len = vector::length(&a);
+while (index < len) {
+print(vector::borrow(&a, index));
+index = index + 1;
+};
+```
+
++ std::string底层实现
+
+```move
+struct String has copy, drop, store {
+bytes: vector<u8>,
+}
+```
+
+可以看到std::string的底层数据时使用vector<u8>存储的，string的相关操作都是调用了vector的标准方法去实现的。接下来我们会详细介绍。
+
+----
+
+## 2. std::string
+
 ----
 
 ## 2. signer
 
-
-
 ----
 
-> 本节我们学到了如何创建一个集合，如何操作集合中的元素。已经对signer类型的介绍。接下来我们继续学习move中的references & tuple.
+> 本节我们学到了如何创建一个集合，如何操作集合中的元素。已经对signer类型的介绍。接下来我们继续学习move中的references &
+> tuple.
