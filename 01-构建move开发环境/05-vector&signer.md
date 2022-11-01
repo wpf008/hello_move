@@ -97,7 +97,7 @@ while (index < len) {
 };
 ```
 
-+ vector排序
++ [vector排序](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_vector_signer.move)
 
 > 通过插入排序的案例可以很深刻的理解&、&mut、vector::borrow、vector::borrow_mut、*作用，希望大家能熟练掌握。
 
@@ -143,12 +143,66 @@ struct String has copy, drop, store {
 ----
 
 ## 2. std::string
+### 2.1 string的实例化
+```move
+let x = b"hello world";
+let s1 = string::utf8(x);
+print(&s1);     //[104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
+let y = vector<u8>[1,2,3,4,5,6];
+let s2 = string::utf8(y);
+print(&s2);     // [1, 2, 3, 4, 5, 6]
+```
+
+### 2.2 std::string通过Move标准库中的模块支持以下操作:
+
+| 方法                                             | 描述                                      | 是否会abort    |
+|:-----------------------------------------------|:----------------------------------------|:------------|
+| utf8(bytes: vector<u8>): String                | 实例化一个字符编码为UTF的string                    | 不是UFT8编码的字符 |
+| try_utf8(bytes: vector<u8>): Option<String>    | 实例化一个字符编码为UTF的string                    | 不会          |
+| bytes(s: &String): &vector<u8>                 | 返回对基础字节向量的引用。                           | 不会          |
+| is_empty(s: &String): bool                     | 字符串是否为空                                 | 不会          |
+| length(s: &String): u64                        | 字符串长度                                   | 不会          |
+| append(s: &mut String, r: String)              | 将字符串r追加到s                               | 不会          |
+| append_utf8(s: &mut String, bytes: vector<u8>) | 将 vector<u8>追加到s                        | 不会          |
+| insert(s: &mut String, at: u64, o: String)     | 在给定字符串的字节索引处插入另一个字符串。 索引必须是有效的 utf8 字符  | 不会          |
+| index_of(s: &String, r: &String)               | 计算字符串第一次出现的索引。 如果未找到匹配项，则返回 `length(s)` | 不会          |
+| sub_string(s: &String, i: u64, j: u64): String | 截取s[i，j)的字符串                            | 不会          |
+
+> std::string的相关api建议自行练习一下
+----
+
+## 3. signer
+> signer是一个内置的Move资源类型。signer是一种允许持有人代表特定address。signer值是特殊的，因为它们不能通过文字或指令创建，只能由 Move VM 创建。
+>
+> 在 VM 运行带有 type 参数的脚本之前signer，它会自动创建signer值并将它们传递给脚本。
+>
+
+```move
+#[test(s = @sender)]  // @sender在Move.toml中定义，自动创建signer值并将它们传递给脚本
+public fun test_signer(s: &signer) {
+    print(s);
+}
+```
+
+| 方法                                           | 描述                 | 是否会abort    |
+|:---------------------------------------------|:-------------------|:------------|
+| signer::borrow_address(s: &signer): &address | 返回此 &signer 中的地址   | 不会  |
+| signer::address_of(s: &signer): address              | 返回此 &signer 中的地址引用 | 不会          |
+
+```move
+let a = signer::address_of(s);
+print(&a);
+let b = signer::borrow_address(s);
+print(b);
+```
+
+> 此外，move_to<T>(&signer, T) 全局存储操作符需要一个&signer参数来在signer.address的帐户下发布资源T。 这确保了只有经过身份验证的用户才能选择在其地址下发布资源。
+
+
+> **测试脚本如何传入参数将在接下来的测试脚本一节相信介绍**
+
+
 
 ----
 
-## 2. signer
-
-----
-
-> 本节我们学到了如何创建一个集合，如何操作集合中的元素。已经对signer类型的介绍。接下来我们继续学习move中的references &
-> tuple.
+> 本节我们学到了如何创建一个集合、如何操作集合中的元素、move中string的实现原理、已经相关API的介绍、signer类型的介绍。接下来我们继续学习move中的references & tuple.

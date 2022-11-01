@@ -2,6 +2,8 @@
 module sender::test_vector_signer {
     use std::vector;
     use aptos_std::debug::print;
+    use std::string;
+    use std::signer;
 
     #[test]
     public fun test_vector() {
@@ -54,11 +56,10 @@ module sender::test_vector_signer {
             print(vector::borrow(&a, index));
             index = index + 1;
         };
-
     }
 
     #[test]
-    public fun sort(v:&vector<u64>) {
+    public fun sort() {
         let v = vector<u64>[4, 3, 6, 2, 1];
         if (!vector::is_empty(&v)) {
             let current: u64 ;
@@ -72,8 +73,8 @@ module sender::test_vector_signer {
                     let temp = vector::borrow_mut(&mut v, preIndex);
                     *temp = value;
                     preIndex = preIndex - 1;
-                    if(preIndex > 0){
-                        value  = *vector::borrow(&v, preIndex-1);
+                    if (preIndex > 0) {
+                        value = *vector::borrow(&v, preIndex - 1);
                     };
                 };
                 let temp = vector::borrow_mut(&mut v, preIndex);
@@ -82,5 +83,24 @@ module sender::test_vector_signer {
             };
         };
         print(&v);
+    }
+
+    #[test]
+    public fun test_string() {
+        let x = b"hello world";
+        let s1 = string::utf8(x);
+        print(&s1);//[104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
+        let y = vector<u8>[1, 2, 3, 4, 5, 6];
+        let s2 = string::utf8(y);
+        print(&s2);// [1, 2, 3, 4, 5, 6]
+    }
+
+    #[test(s = @sender)]
+    public fun test_signer(s: &signer) {
+        print(s);
+        let a = signer::address_of(s);
+        print(&a);
+        let a = signer::borrow_address(s);
+        print(a);
     }
 }
