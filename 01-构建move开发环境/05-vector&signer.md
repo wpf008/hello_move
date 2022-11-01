@@ -87,32 +87,54 @@ print(&a);//[1, 4, 5, 2]
 ### 1.3 std::vector的其他操作
 
 + 遍历vector
-
++ 
 ```move
 let index = 0;
 let len = vector::length(&a);
 while (index < len) {
-print(vector::borrow(&a, index));
-index = index + 1;
+    print(vector::borrow(&a, index));
+    index = index + 1;
 };
 ```
 
 + vector排序
 
+> 通过插入排序的案例可以很深刻的理解&、&mut、vector::borrow、vector::borrow_mut、*作用，希望大家能熟练掌握。
+
 ```move
-let index = 0;
-let len = vector::length(&a);
-while (index < len) {
-print(vector::borrow(&a, index));
-index = index + 1;
-};
+public fun sort() {
+    let v = vector<u64>[4, 3, 6, 2, 1];
+    if (!vector::is_empty(&v)) {
+        let current: u64 ;
+        let length: u64 = vector::length(&v);
+        let index: u64 = 0;
+        while (index < length - 1) {
+            current = *vector::borrow(&v, index + 1);  // * 解引用，拿到其值赋值给current
+            let preIndex = index + 1; // index + 1 主要是因为move中没有负数
+            let value = *vector::borrow(&v, preIndex - 1); //同理
+            while (preIndex >= 1 && value > current) {
+                let temp = vector::borrow_mut(&mut v, preIndex); // borrow_mut()拿到preIndex索引下的可修改引用
+                *temp = value; //将value赋值给temp，即v[preIndex] = value
+                preIndex = preIndex - 1;
+                if(preIndex > 0){
+                    value  = *vector::borrow(&v, preIndex-1);
+                };
+            };
+            let temp = vector::borrow_mut(&mut v, preIndex);
+            *temp = current;
+            index = index + 1;
+        };
+    };
+    print(&v);
+}
 ```
+
 
 + std::string底层实现
 
 ```move
 struct String has copy, drop, store {
-bytes: vector<u8>,
+    bytes: vector<u8>,
 }
 ```
 
