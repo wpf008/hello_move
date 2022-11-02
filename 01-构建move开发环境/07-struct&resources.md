@@ -1,54 +1,169 @@
-# move references & tuples
+# ```move中的结构、泛型与资源```
 
 > 本教程是基于aptos搭建的move智能合约开发
 
-## 1.references(引用)
-> Move有两种类型的引用：不可变的 ```&``` 和可变的```&mut```。不可变引用是只读的，不能修改基础值（或其任何字段）。可变引用允许通过写入该引用进行修改。 Move的类型系统强制执行防止引用错误的所有权规则。
 
-+ ```&e```	创建一个不可变的引用e
-+ ```&mut e```创建一个可变引用e
-+ ```&e.f```创建对结构e的字段f的不可变引用
-+ ```&mute.f```创建对结构e的字段f的可变引用
-+ ```freeze(e)```将可变引用e转换为不可变引用
-+ ```*e``` 解引用，即获取e的值
-+ ```*e1 = e2``` 解引用，e2重新赋值给e1
 
-> 如果你已经将上一讲vector中的排序算法弄懂，引用这一部分也基本明了。这里再看一个交换数值的例子
 
-[example](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_references_tuples.move)
-```move
-public fun swap(a: &mut u8, b: &mut u8) {
-    let c = *a;
-    *a = *b;
-    *b = c;
-}
-```
-
->为了读取引用，基础类型必须具有````copy````(复制)能力，因为读取引用会创建值的新副本。 此规则防止复制资源值;
+## 1.struct
+### 1.1 struct 介绍
+> ```struct``` 是由一批数据组合而成的结构型数据。组成结构型数据的每个数据称为结构型数据的“成员”。
+> 
+>结构可以存储任何非引用类型，包括其他结构，无法再存储自身结构，即结构不能递归。
 >
->为了写入引用，基础类型必须具有````drop````删除能力，因为写入引用将丢弃（或“删除”）旧值。 此规则可防止破坏资源值。
+> 默认情况下，结构是线性的和短暂的。即不能被复制，不能被删除，不能被存储在全局存储中。 这意味着所有值都必须转移所有权（线性），并且必须在程序执行结束时处理这些值。
 > 
-> move语言特别的特性:**类型的能力**，将在接下来的篇章中详细介绍。
+> 我们可以通过赋予 ```struct``` 允许```copy```或```drop```以及存储在全局存储中或定义全局存储模式的能力来实现这种行为。
+> 
+> 如果结构值无法复制且无法删除，我们通常将其称为**资源**。在这种情况下，资源值必须在函数结束时转移所有权。此属性使资源特别适合用于定义全局存储模式或表示重要值（例如令牌）。
+>
 
-## 2.tuples(元组)
->实际上````move````语言不完全支持元组,为了支持函数有多个返回值，Move具有类似元组的表达式。这些表达式在运行时不会产生具体的值(字节码中没有元组)，
-> 
-> 因此它们非常有限：它们只能出现在表达式中（通常在函数的返回位置）；它们不能绑定到局部变量；它们不能存储在结构中；元组类型不能用于实例化泛型。
-> 
-> 类似地，````unit()````是 ````Move````语言创建的一种以便基于表达式的类型。````unit()````不会产生任何运行时的值。
-> 
-> 我们可以认为````unit()````是一个空元组，适用于元组的任何限制也适用于 ````unit()````。
+### 1.2 struct 定义
 
++ 结构必须在模块内定义
++ 结构必须以大写字母A-Z开头,后面可以使用A-Z、a-z、0-9、_
++ 结构体中可以定义0-65535个字段
++ **结构类型只能在定义结构的模块内创建（“打包”）、销毁（“解包”）。**
++ **结构的字段只能在定义结构的模块内部访问。**
+
+> 结构的语法
 ```move
-//有多个返回值的函数
-fun hello_tuple(): (u64, bool, address) {
-    let a = 10u64;
-    let b = false;
-    (a, b, @sender)
+//<T1,T2>表示结构的泛型  []表示可选
+struct struct_name<T1,T2> [has] [key | copy | drop | store] {
+    filed_01:T1,
+    filed_02:T2,
+    filed_03:Type_03,
+    ....
+    filed_n:Type_n
+}
+
+```
+
+### 1.2.1 默认情况下，结构声明是线性且短暂的
+```move
+module sender::Coin {
+    use std::string;
+    struct OtherInfo {}
+    struct CoinInfo {
+        name: string::String,
+        symbol: string::String,
+        decimals: u8,
+        supply: u128,
+        cap: u128,
+        otherInfo: OtherInfo,
+        //c:CoinInfo,//error Circular reference of type 'CoinInfo'
+    }
 }
 ```
->由于元组值在运行时并不真正存在，目前它们不能存储到局部变量中（但这个功能很可能很快就会出现）。因此，元组目前只能移动，因为复制它们需要先将它们放入局部变量中。
+
+### 1.2.2 结构声明具有```copy``` ```drop``` ```store```能力,此时结构体具有复制、删除、将其存储在全局存储中或将其用作存储模式
+```move
+module sender::Coin {
+    use std::string;
+    struct OtherInfo has copy,drop{}
+    struct CoinInfo has copy,drop{
+        name: string::String,
+        symbol: string::String,
+        decimals: u8,
+        supply: u128,
+        cap: u128,
+        otherInfo: OtherInfo,
+    }
+}
+```
+
+### 1.2.3 使用泛型的结构定义
+```move
+module sender::Coin {
+    use std::string;
+    struct OtherInfo has copy, store, drop {}
+    struct CoinInfo<T> has copy, store, drop {
+        name: string::String,
+        symbol: string::String,
+        decimals: T,
+        supply: u128,
+        cap: u128,
+        otherInfo: OtherInfo,
+    }
+}
+```
+
+
+### 1.3 struct 创建与使用
+```move
+//在Coin.move模块里定义了一个创建CoinInfo的方法
+public fun new_CoinInfo(name:string::String, symbol: string::String): CoinInfo {
+    let otherInfo = OtherInfo {};
+    CoinInfo {
+        name, symbol, decimals: 10, supply: 10, cap: 10, otherInfo
+    }
+}
+//在Coin.move模块里定义了一个可修改supply的函数
+public fun setSupply(coinInfo: &mut CoinInfo, supply: u128) {
+    coinInfo.supply = supply;
+}
+
+//在test_struct_resource.move实际去创建结构体并修改结构体属性
+#[test]
+public fun test_struct() {
+    let coin = Coin::new_CoinInfo(string::utf8(b"test"), string::utf8(b"T"));
+    print(&coin);
+    Coin::setSupply(&mut coin,100);
+    print(&coin);
+}
+```
+
+
+
+
+## 2.泛型(generics)
+>泛型是允许程序员在强类型程序设计语言中编写代码时使用一些以后才指定的类型，在实例化时作为参数指明这些类型。
+>
+>函数和结构都可以在其签名中采用类型参数列表，并用一对尖括号括起来<...>
+
+### 2.1 定义函数时使用泛型
+```move
+fun fun_name<T>(x: T): T {
+    // this type annotation is unnecessary but valid
+    (x: T)
+}
+```
+
+### 2.2 定义结构时使用泛型
+```move
+struct Foo<T> has copy, drop { x: T }
+
+struct Bar<T1, T2> has copy, drop {
+    x: T1,
+    y: vector<T2>,
+}
+```
+
+### 2.3 ```phantom```类型的泛型
+> 在结构定义中，可以通过在声明之前添加```phantom```关键字来将类型参数声明为```phantom```。 如果一个类型参数被声明为```phantom```，我们就说它是幻像类型参数。
+> 
+> 被```phantom```修饰的类型参数将不参与结构的能力推导。这样，在派生泛型类型的能力时，不考虑幻像类型参数的参数，从而避免了对虚假能力注释的需要。
+> 
+> 定义结构时，```Move```的类型检查器确保每个幻像类型参数要么不在结构定义中使用，要么仅用作幻像类型参数的参数。
+
+```move
+//不在结构定义中使用泛型
+struct A<phantom T1,T2> {
+    foo: T2
+}
+//仅用作幻像类型参数的参数
+struct B<phantom T> {
+    a:A<T,u8>
+}
+```
+
 
 ---
 
-> 至此我们已经学会了move中的引用和元组。接下来我们学习````struct```，利用````struct```构建复杂的结构体并在全局存储中存储资源````resources```。
+## 3.resources
+只有具有```key```能力的结构才能直接保存在持久性全局存储中。存储在这些key结构中的所有值都必须具有这种```store```能力
+
+---
+
+> 至此我们已经学会了move中的引用和元组。接下来我们学习````struct```，利用````
+> struct```构建复杂的结构体并在全局存储中存储资源````resources```。
