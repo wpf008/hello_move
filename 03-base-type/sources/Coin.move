@@ -24,9 +24,6 @@ module sender::Coin {
         coinInfo.supply = supply;
     }
 
-    struct A<phantom T>{
-        a:T;
-    }
 
 
 }
