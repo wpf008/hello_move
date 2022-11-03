@@ -51,4 +51,4 @@ fun hello_tuple(): (u64, bool, address) {
 
 ---
 
-> 至此我们已经学会了move中的引用和元组。接下来我们学习````struct```，利用````struct```构建复杂的结构体并在全局存储中存储资源````resources```。
+> 至此我们已经学会了move中的引用和元组。。

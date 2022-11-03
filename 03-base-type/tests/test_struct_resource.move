@@ -6,7 +6,6 @@ module sender::test_struct_resource {
     use aptos_std::debug::print;
     use sender::MyCoin;
     use std::signer;
-    use sender::dangling;
 
     #[test]
     public fun test_struct() {
@@ -63,9 +62,9 @@ module sender::test_struct_resource {
     }
 
 
-    #[test(from = @from)]
-    fun test_dangling(from: signer) {
-        dangling::borrow_then_remove_bad(signer::address_of(&from));
-    }
+    // #[test(from = @from)]
+    // fun test_dangling(from: signer) {
+        // dangling::borrow_then_remove_bad(signer::address_of(&from));
+    // }
 
 }
