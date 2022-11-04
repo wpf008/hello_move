@@ -6,6 +6,12 @@ version = '1.0.0'
 git = 'https://github.com/aptos-labs/aptos-core.git'
 rev = 'main'
 subdir = 'aptos-move/framework/aptos-framework'
+
+
+[dependencies.aptosToken]
+local='/Users/wpf/.move/https___github_com_aptos-labs_aptos-core_git_main/aptos-move/framework/aptos-token'
+
+
 [addresses]
 sender = '0x6402854dc486d5b5520d3474576a5fc931567e83348ad9acad3ec01206750b4b'
 from = "0x06"
