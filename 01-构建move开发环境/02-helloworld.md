@@ -67,6 +67,8 @@ module 0x1::test_helloworld {
 > 然后在/https___github_com_aptos-labs_aptos-core_git_main 这个目录下执行git clone git@github.com:aptos-labs/aptos-core.git 
 > 
 > 若clone失败，也可以直接去[aptos-core](https://github.com/aptos-labs/aptos-core)直接下载改代码，然后放入该路径下即可。
+> 
+> 另外的一直方式请详细看:[09-move-dependence.md](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/09-move-dependence.md)
 
 ---
 
