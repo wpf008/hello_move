@@ -20,21 +20,22 @@
 
 + **第8讲：move 泛型、结构和资源**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_struct_resource.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/08-struct&resources.md) 
 
++ **第9讲：move 依赖管理**： [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/09-move-dependence.md)
 ----
 
 ## move 进阶[aptos专辑] (热更中)
 
-+ **第9讲：aptos-cli的基本使用**：[代码]() | [文章]()
++ **第10讲：aptos-cli的基本使用**：[代码]() | [文章]()
 
-+ **第10讲：move实现ERC20标准代币**：[代码]() | [文章]()
++ **第11讲：move实现ERC20标准代币**：[代码]() | [文章]()
 
-+ **第11讲：使用aptos-cli发布自己的Token**：[代码]() | [文章]()
++ **第12讲：使用aptos-cli发布自己的Token**：[代码]() | [文章]()
 
-+ **第12讲：MoveStdlib核心源码解读**：[代码]() | [文章]()
++ **第13讲：MoveStdlib核心源码解读**：[代码]() | [文章]()
 
-+ **第13讲：AptosStdlib核心源码解读**：[代码]() | [文章]()
++ **第14讲：AptosStdlib核心源码解读**：[代码]() | [文章]()
 
-+ **第14讲：AptosFramwork核心源码解读**：[代码]() | [文章]()
++ **第15讲：AptosFramwork核心源码解读**：[代码]() | [文章]()
 
 ## move 进阶[sui专辑]
 
