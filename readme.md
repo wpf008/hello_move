@@ -27,7 +27,7 @@
 
 + **第10讲：aptos-cli的基本使用**： [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/10-aptos-cli.md)
 
-+ **第11讲：move实现ERC20标准代币**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/resources/FirstToken.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/11-erc20.md)
++ **第11讲：move实现ERC20标准代币**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/sources/FirstToken.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/11-erc20.md)
 
 + **第12讲：move实现ERC20标准代币源码解读**：[代码]() | [文章]()
 
