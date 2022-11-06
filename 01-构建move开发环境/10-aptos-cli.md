@@ -30,6 +30,9 @@ SUBCOMMANDS:
     node          Tool for operations related to nodes
     stake         Tool for manipulating stake
 ```
+
+----
+
 ## 2.通过```aptos-cli [SUBCOMMANDS] help```去查看子命令具体有哪些可用的命令选项
 ```shell
 aptos account help
@@ -51,6 +54,8 @@ SUBCOMMANDS:
     rotate-key                    Rotate an account's authentication key
     transfer                      Transfer APT between accounts
 ```
+
+----
 
 ## 3.使用``aptos init```初始化本地配置
 ```shell
@@ -87,6 +92,8 @@ wpf@wpf ~ % aptos config show-global-config
 + ```mac os```直接修改.aptos/config.yaml
 + ```windows``直接修改 C:/Users/xxxx/.aptos/config.yaml
 
+----
+
 ## 4. account相关命令
 
 ### 4.1 水龙头获取余额 
@@ -113,6 +120,7 @@ aptos account list --query modules --account default
 aptos account transfer --account <other account> --amount 100
 ```
 
+----
 
 ## 5. ```privateKey```相关命令
 ### 5.1.生成私钥
@@ -124,6 +132,7 @@ aptos key generate --key-type ed25519 --output-file output.key
 aptos key extract-peer --output-file peer_config.yaml
 ```
 
+----
 
 ## 6. ```move```相关命令
 
@@ -178,7 +187,7 @@ aptos move publish --package-dir aptos-move/move-examples/hello_blockchain --nam
 
 ### 6.5.4 到[区块链浏览器](https://explorer.aptoslabs.com/blocks?network=testnet)中查看是否成功部署
 
->在modules下面就可以看到刚刚部署成功的合约的ABI
+>部署成功后，可以在区块链浏览器中可以看见下图，在modules下面就可以看到刚刚部署成功的合约的ABI
 
 ![image](../asset/publish_explorer.png)
 
@@ -187,8 +196,83 @@ aptos move publish --package-dir aptos-move/move-examples/hello_blockchain --nam
 ```shell
 aptos move run --function-id <刚刚执行aptos init键入的私钥对应的地址>::message::set_message --args string:hello!
 ```
+>执行成功后，在区块链浏览器上可以看见下图，在resources下可以看到对应的资源
+```json
+{
+  "message": "hello!",
+  "message_change_events": {
+    "counter": "0",
+    "guid": {
+      "id": {
+        "addr": "0xdc33b8ca18676247c66e607bc638b54b6cbc789d68cb20e5158ce8fe6131434b",
+        "creation_num": "10"
+      }
+    }
+  }
+}
+```
+![image](../asset/hello_blockchain.png)
 
-> 至此使用```move```语言编写智能合约的编译，发布，运行，测试的整个过程都已经OK！
+### 6.5.6 通过```rest api```查询 ```resources```和```events```
+
+```shell
+https://fullnode.testnet.aptoslabs.com/v1/accounts/<your account>/resource/<your account>::message::MessageHolder
+https://fullnode.testnet.aptoslabs.com/v1/accounts/<your account>/events/<your account>::message::MessageHolder/message_change_events
+```
+```json
+{
+  type: "0xdc33b8ca18676247c66e607bc638b54b6cbc789d68cb20e5158ce8fe6131434b::message::MessageHolder",
+  data: {
+    message: "hello aptos!",
+    message_change_events: {
+      counter: "1",
+      guid: {
+        id: {
+          addr: "0xdc33b8ca18676247c66e607bc638b54b6cbc789d68cb20e5158ce8fe6131434b",
+          creation_num: "10"
+        }
+      }
+    }
+  }
+}
+```
+
+```json
+[
+  {
+    version: "334091516",
+    guid: {
+      creation_number: "10",
+      account_address: "0xdc33b8ca18676247c66e607bc638b54b6cbc789d68cb20e5158ce8fe6131434b"
+    },
+    sequence_number: "0",
+    type: "0xdc33b8ca18676247c66e607bc638b54b6cbc789d68cb20e5158ce8fe6131434b::message::MessageChangeEvent",
+    data: {
+      from_message: "hello!",
+      to_message: "hello aptos!"
+    }
+  }
+]
+```
+
+----
+
+## 6. ```node```相关命令
+
+### 6.1 运行一个本地测试节点
+```shell
+aptos node run-local-testnet --with-faucet
+```
+
+### 6.2 强制删除直接节点的运行状态，重新运行一个全新的本地测试节点
+```shell
+aptos node run-local-testnet --with-faucet --force-restart
+```
+
+----
+> 至此关于aptos-cli的常用的命令已经介绍，详细使用请浏览[官方教程](https://aptos.dev/cli-tools/aptos-cli-tool/use-aptos-cli/)。
+> 这一节的重点主要是使用```move```语言编写智能合约的如何通过aptos-cli去编译，发布，运行和测试。
+
 
 
 
