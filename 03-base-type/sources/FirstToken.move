@@ -12,17 +12,17 @@ module sender::FirstToken {
         amount: u128,
     }
 
-    struct Coin<phantom CoinType> has store {
+    struct Coin has store {
         value: u128
     }
 
-    struct CoinStore<phantom CoinType> has key {
-        coin: Coin<CoinType>,
+    struct CoinStore has key {
+        coin: Coin,
         deposit_events: event::EventHandle<DepositEvent>,
         withdraw_events: event::EventHandle<WithdrawEvent>,
     }
 
-    struct CoinInfo<phantom CoinType> has key {
+    struct CoinInfo has key {
         name: string::String,
         symbol: string::String,
         decimals: u8,
@@ -45,7 +45,7 @@ module sender::FirstToken {
 
     const EXCEEDING_THE_TOTAL_SUPPLY: u64 = 6;
 
-    public entry fun initialize<CoinType>(
+    public entry fun initialize(
         address: &signer,
         name: string::String,
         symbol: string::String,
@@ -53,14 +53,14 @@ module sender::FirstToken {
         supply: u128
     ) {
         assert!(signer::address_of(address) == OWNER, INVALID_OWNER);
-        assert!(!exists<CoinInfo<CoinType>>(OWNER), ECOIN_INFO_ALREADY_INIT);
-        move_to(address, CoinInfo<CoinType> {  name, symbol, decimals, supply, cap: 0 });
+        assert!(!exists<CoinInfo>(OWNER), ECOIN_INFO_ALREADY_INIT);
+        move_to(address, CoinInfo {  name, symbol, decimals, supply, cap: 0 });
     }
 
-    fun deposit<CoinType>(account_addr: address, coin: Coin<CoinType>) acquires CoinStore {
-        assert!(exists_coin<CoinType>(account_addr), THE_ACCOUNT_IS_NOT_REGISTERED);
-        let balance = getBalance<CoinType>(account_addr);
-        let coin_store = borrow_global_mut<CoinStore<CoinType>>(account_addr);
+    fun deposit(account_addr: address, coin: Coin) acquires CoinStore {
+        assert!(exists_coin(account_addr), THE_ACCOUNT_IS_NOT_REGISTERED);
+        let balance = getBalance(account_addr);
+        let coin_store = borrow_global_mut<CoinStore>(account_addr);
         let balance_ref = &mut coin_store.coin.value;
         *balance_ref = balance + coin.value;
         event::emit_event(&mut coin_store.withdraw_events,WithdrawEvent { amount: coin.value });
@@ -68,61 +68,61 @@ module sender::FirstToken {
     }
 
 
-    fun withdraw<CoinType>(account_addr: address, amount: u128): Coin<CoinType> acquires CoinStore {
-        assert!(exists_coin<CoinType>(account_addr), THE_ACCOUNT_IS_NOT_REGISTERED);
-        let balance = getBalance<CoinType>(account_addr);
+    fun withdraw(account_addr: address, amount: u128): Coin acquires CoinStore {
+        assert!(exists_coin(account_addr), THE_ACCOUNT_IS_NOT_REGISTERED);
+        let balance = getBalance(account_addr);
         assert!(balance >= amount, INSUFFICIENT_BALANCE);
-        let coin_store = borrow_global_mut<CoinStore<CoinType>>(account_addr);
+        let coin_store = borrow_global_mut<CoinStore>(account_addr);
         let balance_ref = &mut coin_store.coin.value;
         *balance_ref = balance - amount;
         event::emit_event(&mut coin_store.withdraw_events,WithdrawEvent {amount});
-        Coin<CoinType> { value: amount }
+        Coin { value: amount }
     }
 
-    public entry fun transfer<CoinType>(from: &signer, to: address, amount: u128) acquires CoinStore {
-        let coin = withdraw<CoinType>(signer::address_of(from), amount);
-        deposit<CoinType>(to, coin);
+    public entry fun transfer(from: &signer, to: address, amount: u128) acquires CoinStore {
+        let coin = withdraw(signer::address_of(from), amount);
+        deposit(to, coin);
     }
 
 
-    public entry fun burn<CoinType>(owner: &signer, amount: u128) acquires CoinStore, CoinInfo {
+    public entry fun burn(owner: &signer, amount: u128) acquires CoinStore, CoinInfo {
         assert!(signer::address_of(owner) == OWNER, INVALID_OWNER);
-        let coin = withdraw<CoinType>(signer::address_of(owner), amount);
-        let Coin<CoinType> { value: amount } = coin;
-        let cap = &mut borrow_global_mut<CoinInfo<CoinType>>(OWNER).cap;
+        let coin = withdraw(signer::address_of(owner), amount);
+        let Coin { value: amount } = coin;
+        let cap = &mut borrow_global_mut<CoinInfo>(OWNER).cap;
         *cap = *cap - amount;
-        let supply = &mut borrow_global_mut<CoinInfo<CoinType>>(OWNER).supply;
+        let supply = &mut borrow_global_mut<CoinInfo>(OWNER).supply;
         *supply = *supply - amount;
     }
 
-    public entry fun mint<CoinType>(owner: &signer, to: address, amount: u128) acquires CoinStore, CoinInfo {
+    public entry fun mint(owner: &signer, to: address, amount: u128) acquires CoinStore, CoinInfo {
         assert!(signer::address_of(owner) == OWNER, INVALID_OWNER);
         assert!(
-            borrow_global<CoinInfo<CoinType>>(OWNER).cap + amount <= borrow_global<CoinInfo<CoinType>>(OWNER).supply,
+            borrow_global<CoinInfo>(OWNER).cap + amount <= borrow_global<CoinInfo>(OWNER).supply,
             EXCEEDING_THE_TOTAL_SUPPLY
         );
-        deposit<CoinType>(to, Coin { value: amount });
-        let cap = &mut borrow_global_mut<CoinInfo<CoinType>>(OWNER).cap;
+        deposit(to, Coin { value: amount });
+        let cap = &mut borrow_global_mut<CoinInfo>(OWNER).cap;
         *cap = *cap + amount;
     }
 
 
-    public fun getBalance<CoinType>(owner: address): u128 acquires CoinStore {
-        assert!(exists_coin<CoinType>(owner), THE_ACCOUNT_IS_NOT_REGISTERED);
-        borrow_global<CoinStore<CoinType>>(owner).coin.value
+    public fun getBalance(owner: address): u128 acquires CoinStore {
+        assert!(exists_coin(owner), THE_ACCOUNT_IS_NOT_REGISTERED);
+        borrow_global<CoinStore>(owner).coin.value
     }
 
-    public entry fun register<CoinType>(address: &signer) {
+    public entry fun register(address: &signer) {
         let account = signer::address_of(address);
-        assert!(!exists<CoinStore<CoinType>>(account), REGISTERED);
-        move_to(address, CoinStore<CoinType> {
+        assert!(!exists<CoinStore>(account), REGISTERED);
+        move_to(address, CoinStore {
             coin: Coin { value: 0 },
             deposit_events: account::new_event_handle<DepositEvent>(address),
             withdraw_events: account::new_event_handle<WithdrawEvent>(address)
         });
     }
 
-    public fun exists_coin<CoinType>(account_addr: address): bool {
-        exists<CoinStore<CoinType>>(account_addr)
+    public fun exists_coin(account_addr: address): bool {
+        exists<CoinStore>(account_addr)
     }
 }
