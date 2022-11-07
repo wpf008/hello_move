@@ -63,7 +63,7 @@ module sender::FirstToken {
         let coin_store = borrow_global_mut<CoinStore>(account_addr);
         let balance_ref = &mut coin_store.coin.value;
         *balance_ref = balance + coin.value;
-        event::emit_event(&mut coin_store.withdraw_events,WithdrawEvent { amount: coin.value });
+        event::emit_event(&mut coin_store.deposit_events,DepositEvent { amount: coin.value });
         let Coin { value: _ } = coin;
     }
 
