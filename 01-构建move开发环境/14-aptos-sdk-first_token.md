@@ -16,14 +16,14 @@ function_id = "0x1aade402e3a2ddd9ba391c819765956cabad4d5bee6f9ce65be724ca108c7c8
 ```
 
 
-## 1. 使用SDK部署合约
+## 2. 使用SDK部署合约
 
-### 1.1 获取```FirstToken```编译后的源文件
+### 2.1 获取```FirstToken```编译后的源文件
 + 修改```FirstToken```工程里```Move.toml``` **将地址修改成python脚本中部署所对应的账户**
 + 执行 ```shell aptos move compile --save-metadata ``` 获取编译后的源文件:[package-metadata.bcs](https://github.com/wpf008/hello_move/blob/master/python/package-metadata.bcs),[FirstToken.mv](https://github.com/wpf008/hello_move/blob/master/python/FirstToken.mv)
   ![image](../asset/first_token_metadata.png)
 
-### 1.2 编写python publish脚本
+### 2.2 编写python publish脚本
 ```shell
 # 发布合约
 def publish_first_token(account: Account):
@@ -43,7 +43,7 @@ def publish_first_token(account: Account):
 
 
 
-## 2.初始化代币信息
+## 3.初始化代币信息
 ```python
 def initialize(acc: Account):
     transaction_arguments = [TransactionArgument('Kobe#Bryant', Serializer.str),
@@ -58,7 +58,7 @@ def initialize(acc: Account):
 ```
 
 
-## 3.初始化CoinStore资源
+## 4.初始化CoinStore资源
 ````python
 def register(acc: Account):
     transaction_arguments = []
@@ -69,7 +69,7 @@ def register(acc: Account):
     print(txn_hash)
 ````
 
-## 4.铸造代币
+## 5.铸造代币
 ```python
 # 铸造代币
 def mint(_from: Account, _to: AccountAddress,amount:int):
@@ -84,7 +84,7 @@ def mint(_from: Account, _to: AccountAddress,amount:int):
     print(txn_hash)
 ```
 
-## 5.转账
+## 6.转账
 ```python
 def transfer(_from: Account, _to: AccountAddress,amount:int):
     transaction_arguments = [
@@ -97,7 +97,7 @@ def transfer(_from: Account, _to: AccountAddress,amount:int):
     rest_client.wait_for_transaction(txn_hash)
     print(txn_hash)
 ```
-## 6.main函数
+## 7.main函数
 ````python
 if __name__ == "__main__":
     # 请自行配置合约部署对应的私钥和地址，文件内容格式：{"account_address":"your address","private_key":"your pk"}
