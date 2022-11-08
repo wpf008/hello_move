@@ -96,7 +96,7 @@ let b: address = @sender;  //sender in Move.toml
 ```move
 move_to(acc:&singer,res:T);         //  发布资源T到acc地址下，singer将在下一讲讲述
 move_from<T>(add:address);          //  在add地址下移除资源T并返回T
-exists<u8>(add:address);            //  T资源在add地址下是否存在
+exists<T>(add:address);            //  T资源在add地址下是否存在
 borrow_global<T>(add:address);      //  向add地址借出不可变的资源T
 borrow_global_mut<T>(add:address);  //  向add地址借出可变的资源T
 ```
