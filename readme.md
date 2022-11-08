@@ -33,7 +33,7 @@
 
 + **第13讲：python aptos-sdk常用API**：[文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/13-aptos-sdk.md)
 
-+ **第14讲：python aptos-sdk与合约交互**：[代码]() | [文章]()
++ **第14讲：python aptos-sdk与合约交互**：[代码](https://github.com/wpf008/hello_move/blob/master/python/FirstToken.py) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/14-aptos-sdk-first_token.md)
 
 + **第15讲：MoveStdlib核心源码解读**：[代码]() | [文章]()
 
