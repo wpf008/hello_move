@@ -31,7 +31,7 @@
 
 + **第12讲：move实现ERC20标准代币源码解读**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/sources/FirstToken.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/12-erc20-source.md)
 
-+ **第13讲：python aptos-sdk常用API**：[代码]() | [文章]()
++ **第13讲：python aptos-sdk常用API**：[文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/13-aptos-sdk.md)
 
 + **第14讲：python aptos-sdk与合约交互**：[代码]() | [文章]()
 
