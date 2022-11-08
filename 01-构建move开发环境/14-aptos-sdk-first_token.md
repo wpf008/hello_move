@@ -51,7 +51,7 @@ def mint(_from: Account, _to: AccountAddress) -> str:
     return txn_hash
 ```
 
-> [完整代码]()
+> [完整代码](https://github.com/wpf008/hello_move/blob/master/python/FirstToken.py)
 
 ## 5. 使用SDK部署合约
 
