@@ -99,7 +99,7 @@ while (index < len) {
 
 + [vector排序](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_vector_signer.move)
 
-> 通过插入排序的案例可以很深刻的理解&、&mut、vector::borrow、vector::borrow_mut、*作用，希望大家能熟练掌握。
+> 插入排序。通过插入排序的案例可以很深刻的理解&、&mut、vector::borrow、vector::borrow_mut、*作用，希望大家能熟练掌握。
 
 ```move
 public fun sort() {
@@ -128,6 +128,49 @@ public fun sort() {
     print(&v);
 }
 ```
+> 冒泡排序
+```
+#[test_only]
+module sender::test_sort {
+    use std::vector::length;
+    use std::vector;
+    use aptos_std::debug::print;
+
+    public fun sort(arr: vector<u8>) :vector<u8>{
+        let index = 0;
+        let size = length(&arr);
+        let num0 = *vector::borrow(&arr, index);
+        while (index < size) {
+            let innerIndex = index + 1;
+            let minIndex = index;
+            while (innerIndex < size) {
+                let innerNum =*vector::borrow<u8>(&arr, innerIndex);
+                if (innerNum < num0) {
+                    minIndex = innerIndex;
+                    num0 = innerNum;
+                };
+                innerIndex = innerIndex + 1;
+            };
+            if(index != minIndex){
+                vector::swap(&mut arr, index, minIndex);
+            };
+            index = index + 1;
+            if (index < size) {
+                num0 = *vector::borrow(&arr, index);
+            };
+        };
+        arr
+    }
+
+    #[test]
+    public fun test() {
+        let a = vector<u8>[8, 3, 6, 2, 7, 1, 5];
+        a = sort(a);
+        print(&a)
+    }
+}
+```
+
 
 
 + std::string底层实现
