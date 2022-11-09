@@ -229,8 +229,8 @@ public fun test_signer(s: &signer) {
 
 | 方法                                           | 描述                 | 是否会abort    |
 |:---------------------------------------------|:-------------------|:------------|
-| signer::borrow_address(s: &signer): &address | 返回此 &signer 中的地址   | 不会  |
-| signer::address_of(s: &signer): address              | 返回此 &signer 中的地址引用 | 不会          |
+| signer::borrow_address(s: &signer): &address | 返回此 &signer 中的地址引用 | 不会  |
+| signer::address_of(s: &signer): address              | 返回此 &signer 中的地址 | 不会          |
 
 ```move
 let a = signer::address_of(s);
@@ -242,7 +242,7 @@ print(b);
 > 此外，move_to<T>(&signer, T) 全局存储操作符需要一个&signer参数来在signer.address的帐户下发布资源T。 这确保了只有经过身份验证的用户才能选择在其地址下发布资源。
 
 
-> **测试脚本如何传入参数将在接下来的测试脚本一节相信介绍**
+> **测试脚本如何传入参数将在接下来的测试脚本一节详细介绍**
 
 
 
