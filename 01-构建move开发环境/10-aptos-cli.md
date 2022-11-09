@@ -57,7 +57,7 @@ SUBCOMMANDS:
 
 ----
 
-## 3.使用``aptos init```初始化本地配置
+## 3.使用```aptos init```初始化本地配置
 ```shell
 wpf@wpf ~ % aptos init
 Configuring for profile default
@@ -136,7 +136,7 @@ aptos key extract-peer --output-file peer_config.yaml
 
 ## 6. ```move```相关命令
 
-### 6.1 编译``` Move````程序
+### 6.1 编译```Move```程序
 ```shell
 aptos move compile --package-dir <your code dir > --named-addresses <move程序中的地址别名>=<your address>
 ```
@@ -149,7 +149,7 @@ module sender::helloworld {
     }
 }
 ```
-### 6.2 编译并测试``` Move```程序
+### 6.2 编译并测试```Move```程序
 ```shell
 aptos move test --package-dir <your code dir > --named-addresses <move程序中的地址别名>=<your address>
 ```
