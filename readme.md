@@ -16,7 +16,7 @@
 
 + **第6讲：move 引用和元组**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_references_tuples.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/06-references&tuples.md) 
 
-+ **第7讲：move 类型的能力和所有权**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_references_tuples.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/07-abilities-ownership.md.md)
++ **第7讲：move 类型的能力和所有权**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_references_tuples.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/07-abilities-ownership.md)
 
 + **第8讲：move 泛型、结构和资源**：[代码](https://github.com/wpf008/hello_move/blob/master/03-base-type/tests/test_struct_resource.move) | [文章](https://github.com/wpf008/hello_move/blob/master/01-%E6%9E%84%E5%BB%BAmove%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/08-struct&resources.md) 
 
