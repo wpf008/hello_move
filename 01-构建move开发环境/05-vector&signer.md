@@ -87,7 +87,7 @@ print(&a);//[1, 4, 5, 2]
 ### 1.3 std::vector的其他操作
 
 + 遍历vector
-+ 
+
 ```move
 let index = 0;
 let len = vector::length(&a);
