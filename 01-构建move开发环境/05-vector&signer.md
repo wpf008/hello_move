@@ -134,30 +134,22 @@ public fun sort() {
 module sender::test_sort {
     use std::vector::length;
     use std::vector;
-    use aptos_std::debug::print;
+    use aptos_std::debug;
 
     public fun sort(arr: vector<u8>) :vector<u8>{
         let index = 0;
         let size = length(&arr);
-        let num0 = *vector::borrow(&arr, index);
         while (index < size) {
             let innerIndex = index + 1;
-            let minIndex = index;
             while (innerIndex < size) {
-                let innerNum =*vector::borrow<u8>(&arr, innerIndex);
+                let num0 = *vector::borrow(&mut arr, index);
+                let innerNum = *vector::borrow(&arr, innerIndex);
                 if (innerNum < num0) {
-                    minIndex = innerIndex;
-                    num0 = innerNum;
+                    vector::swap(&mut arr, index, innerIndex);
                 };
                 innerIndex = innerIndex + 1;
             };
-            if(index != minIndex){
-                vector::swap(&mut arr, index, minIndex);
-            };
             index = index + 1;
-            if (index < size) {
-                num0 = *vector::borrow(&arr, index);
-            };
         };
         arr
     }
@@ -166,7 +158,7 @@ module sender::test_sort {
     public fun test() {
         let a = vector<u8>[8, 3, 6, 2, 7, 1, 5];
         a = sort(a);
-        print(&a)
+        debug::print(&a)
     }
 }
 ```
