@@ -284,7 +284,7 @@ fun test_refrence(from: signer, to: signer) {
 > 
 >  move中的函数必须用```acquires T```注释当且仅当：
 > 
-> + 函数体中包含一个```move_from<T>```、```borrow_global_mut<T>````或````borrow_global<T>````指令时,需要```acquires T ```
+> + 函数体中包含一个```move_from<T>```、```borrow_global_mut<T>```或````borrow_global<T>````指令时,需要```acquires T ```
 > + f函数调用了**模块内**的另一个函数g，g函数被```acquires T ```注释时，f函数也需要```acquires T ```
 > 
 > 如果一个函数涉及多个资源，需要```acquires T1,T2,T3```
@@ -316,7 +316,7 @@ module 0x42::m {
 
 >```Move```禁止返回全局引用，并要求```acquires```注解以防止悬空引用。
 > 这允许```Move```兑现其对所有引用类型的静态引用安全的承诺（即，没有悬空引用，没有 null 或 nil 取消引用）。
-> 下面这个例子说明了```Move```类型系统如何使用```acquires``来防止悬空引用：
+> 下面这个例子说明了```Move```类型系统如何使用```acquires```来防止悬空引用：
 
 [example](https://github.com/wpf008/hello_move/blob/master/03-base-type/sources/dangling.move)
 
